@@ -83,8 +83,8 @@ public class SnappingAPI {
     @PostMapping(value = "/{profile}")
     @Operation(
             description = """
-                    Returns a list of points snapped to the nearest edge in the graph. \
-                    This method does not accept any request body or parameters other than profile, locations, maximum_snapping_radius.\
+                    Returns a list of points snapped to the nearest edge in the graph. In case an appropriate
+                    snapping point cannot be found within the specified search radius, "null" is returned.
                     """,
             summary = "Snapping Service"
     )
@@ -92,7 +92,7 @@ public class SnappingAPI {
             responseCode = "200",
             description = "Standard response for successfully processed requests. Returns JSON.",
             content = {@Content(
-                    mediaType = "application/geo+json",
+                    mediaType = "application/json",
                     schema = @Schema(implementation = JsonSnappingResponse.class)
             )
             })
@@ -103,14 +103,17 @@ public class SnappingAPI {
 
     @PostMapping(value = "/{profile}/json", produces = {"application/json;charset=UTF-8"})
     @Operation(
-            description = "Returns a list of points snapped to the nearest edge in the graph.",
+            description = """
+                    Returns a list of points snapped to the nearest edge in the graph. In case an appropriate
+                    snapping point cannot be found within the specified search radius, \"null\" is returned.
+                    """,
             summary = "Snapping Service JSON"
     )
     @ApiResponse(
             responseCode = "200",
             description = "JSON Response.",
             content = {@Content(
-                    mediaType = "application/geo+json",
+                    mediaType = "application/json",
                     schema = @Schema(implementation = JsonSnappingResponse.class)
             )
             })
